@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"../token"
+	"github.com/SerhiiCho/parser/token"
 )
 
 type Lexer struct {
