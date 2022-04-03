@@ -6,18 +6,22 @@ import (
 	"github.com/SerhiiCho/parser/token"
 )
 
+type TestCase struct {
+	expectedType    token.TokenType
+	expectedLiteral string
+}
+
 func TestNextToken(t *testing.T) {
-	input := `let five = 5;
-let ten = 10;
-let add = fn(x, y) {
-x + y;
-};
-let result = add(five, ten);
-`
-	tests := []struct {
-		expectedType    token.TokenType
-		expectedLiteral string
-	}{
+	input := `
+	let five = 5;
+	let ten = 10;
+	let add = fn(x, y) {
+	x + y;
+	};
+	let result = add(five, ten);
+	`
+
+	tests := []TestCase{
 		{token.LET, "let"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
@@ -57,6 +61,10 @@ let result = add(five, ten);
 		{token.EOF, ""},
 	}
 
+	testTokens(input, t, tests)
+}
+
+func testTokens(input string, t *testing.T, tests []TestCase) {
 	l := New(input)
 
 	for i, tt := range tests {
