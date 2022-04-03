@@ -1,8 +1,9 @@
 package token
 
+// Possible TokenTypes as constants
 const (
-	ILLEGAL = "ILLEGAL"
-	EOF     = "EOF"
+	ILLEGAL = "ILLEGAL" //  signifies a token/character we don’t know about
+	EOF     = "EOF"     // stands for “end of file”
 
 	// Identifiers + literals
 	IDENT = "IDENT" // add, foobar, x, y, ...
@@ -47,6 +48,10 @@ var keywords = map[string]TokenType{
 	"return": RETURN,
 }
 
+// We defined the TokenType type to be a string.
+// That allows us to use many different values
+// as TokenTypes, which in turn allows us to distinguish
+// between different types of tokens
 type TokenType string
 
 type Token struct {

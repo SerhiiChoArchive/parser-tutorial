@@ -17,6 +17,8 @@ func New(input string) *Lexer {
 	return l
 }
 
+// The purpose of readChar is to give us the next character
+// and advance our position in the input string
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -28,6 +30,8 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+// Looks at the current character under examination (l.ch)
+// and return a token depending on which character it is
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -86,6 +90,9 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
+// readIdentifier reads in an identifier and advances
+// our lexer’s positions until it encounters a
+// non-letter-character
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 
@@ -119,6 +126,9 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 	}
 }
 
+// peekChar() is really similar to readChar()
+// except that it doesn’t increment
+// l.position and l.readPosition
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
@@ -127,6 +137,8 @@ func (l *Lexer) peekChar() byte {
 	return l.input[l.readPosition]
 }
 
+// isLetter helper function just checks whether
+// the given argument is a letter
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
