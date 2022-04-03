@@ -90,6 +90,14 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
+// Skips over newline characters to make the
+// parsing step later on a little easier
+func (l *Lexer) skipWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
+}
+
 // readIdentifier reads in an identifier and advances
 // our lexer’s positions until it encounters a
 // non-letter-character
@@ -103,12 +111,8 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
-func (l *Lexer) skipWhitespace() {
-	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
-		l.readChar()
-	}
-}
-
+// readNumber method is exactly the same as readIdentifier
+// except for its usage of isDigit instead of isLetter
 func (l *Lexer) readNumber() string {
 	position := l.position
 
@@ -126,7 +130,7 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 	}
 }
 
-// peekChar() is really similar to readChar()
+// peekChar is really similar to readChar
 // except that it doesn’t increment
 // l.position and l.readPosition
 func (l *Lexer) peekChar() byte {

@@ -59,6 +59,8 @@ type Token struct {
 	Literal string
 }
 
+// LookupIdent checks the keywords table to see whether
+// the given identifier is in fact a keyword
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
