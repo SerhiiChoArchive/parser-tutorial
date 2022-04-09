@@ -3,8 +3,8 @@ package ast
 import "github.com/SerhiiCho/parser/token"
 
 type LetStatement struct {
-	Token token.Token // the token.Let token
-	Name  *Identifier
+	Token token.Token // {Type:"LET", Literal:"let"}
+	Name  *Identifier // {Token:token.Token{Type:"IDENT", Literal:"x"}, Value:"x"}
 	Value Expression
 }
 
