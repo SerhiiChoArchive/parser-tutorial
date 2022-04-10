@@ -14,5 +14,5 @@ func (i *Identifier) TokenLiteral() string {
 }
 
 func (i *Identifier) String() string {
-	return i.Token.Literal
+	return i.Value
 }
