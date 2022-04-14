@@ -198,7 +198,9 @@ func TestParsingPrefixExpression(t *testing.T) {
 		integerValue int64
 	}{
 		{"!5;", "!", 5},
+		{"!11;", "!", 11},
 		{"-15;", "-", 15},
+		{"-0;", "-", 0},
 	}
 
 	for _, tt := range prefixTests {
@@ -220,7 +222,7 @@ func TestParsingPrefixExpression(t *testing.T) {
 		exp, ok := stmt.Expression.(*ast.PrefixExpression)
 
 		if !ok {
-			t.Fatalf("stmt i not ast.PrefixExpression. got=%T", stmt.Expression)
+			t.Fatalf("stmt i not ast.PrefixExpression. got=%T", exp.Operator)
 		}
 
 		if !testIntegerLiteral(t, exp.Right, tt.integerValue) {
