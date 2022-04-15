@@ -66,6 +66,16 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.BANG, p.parsePrefixExpression)
 	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
 
+	p.infixParseFns = make(map[token.TokenType]infixParseFn)
+	p.registerInfix(token.PLUS, p.parseInfixExpression)
+	p.registerInfix(token.MINUS, p.parseInfixExpression)
+	p.registerInfix(token.SLASH, p.parseInfixExpression)
+	p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+	p.registerInfix(token.EQ, p.parseInfixExpression)
+	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
+	p.registerInfix(token.LT, p.parseInfixExpression)
+	p.registerInfix(token.GT, p.parseInfixExpression)
+
 	return p
 }
 
@@ -136,14 +146,6 @@ func (p *Parser) Errors() []string {
 	return p.errors
 }
 
-func (p *Parser) peekPrecedence() int {
-	if prec, ok := precedences[p.peekToken.Type]; ok {
-		return prec
-	}
-
-	return LOWEST
-}
-
 func (p *Parser) peekError(t token.TokenType) {
 	msg := fmt.Sprintf("expected next token to be %s, got %s instead", t, p.peekToken.Type)
 	p.errors = append(p.errors, msg)
@@ -157,6 +159,22 @@ func (p *Parser) noPrefixParseFnError(t token.TokenType) {
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
 	p.peekToken = p.l.NextToken()
+}
+
+func (p *Parser) peekPrecedence() int {
+	if prec, ok := precedences[p.peekToken.Type]; ok {
+		return prec
+	}
+
+	return LOWEST
+}
+
+func (p *Parser) curPrecedence() int {
+	if prec, ok := precedences[p.curToken.Type]; ok {
+		return prec
+	}
+
+	return LOWEST
 }
 
 func (p *Parser) parseStatement() ast.Statement {
