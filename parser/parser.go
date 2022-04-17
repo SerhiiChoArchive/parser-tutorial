@@ -46,8 +46,10 @@ type Parser struct {
 	// With these maps in place, we can just check if
 	// the appropriate map (infix or prefix) has a
 	// parsing function associated with curToken.Type
+	// prefixParseFns is called 'nuds' in Pratt's paper
 	prefixParseFns map[token.TokenType]prefixParseFn
-	infixParseFns  map[token.TokenType]infixParseFn
+	// infixParseFns is called 'leds' in Pratt's paper
+	infixParseFns map[token.TokenType]infixParseFn
 }
 
 func New(l *lexer.Lexer) *Parser {
